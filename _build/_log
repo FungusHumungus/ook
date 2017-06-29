@@ -1,0 +1,10 @@
+### Starting build.
+# Target: ponkit.ml.depends, tags: { package(ansiterminal), package(str), extension:ml, file:ponkit.ml, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -package ansiterminal -package str -modules ponkit.ml > ponkit.ml.depends
+# Target: ponkit.cmo, tags: { package(ansiterminal), package(str), byte, compile, extension:cmo, extension:ml, file:ponkit.cmo, file:ponkit.ml, implem, ocaml, quiet }
+ocamlfind ocamlc -c -package ansiterminal -package str -o ponkit.cmo ponkit.ml
+# Target: ponkit.cmx, tags: { package(ansiterminal), package(str), compile, extension:cmx, extension:ml, file:ponkit.cmx, file:ponkit.ml, implem, native, ocaml, quiet }
+ocamlfind ocamlopt -c -package ansiterminal -package str -o ponkit.cmx ponkit.ml
+# Target: ponkit.native, tags: { package(ansiterminal), package(str), dont_link_with, extension:native, file:ponkit.native, link, native, ocaml, program, quiet }
+ocamlfind ocamlopt -linkpkg -package ansiterminal -package str ponkit.cmx -o ponkit.native
+# Compilation successful.

@@ -1,0 +1,5 @@
+"Rule: ocaml: cmx* & o* -> native (%=ponkit )": "\1318,~gXq\021mh\250\143[2!\127"
+"Rule: ocaml dependencies ml (%=ponkit )": "\230\255O\017\133H3\182\214\215n\128k\232\r\211"
+"Resource: /Users/stephenwakely/src/ponkit/ponkit.ml": "\156\144=AJ\014\028>\190z.1a\031\204v"
+"Rule: ocaml: ml & cmi -> cmx & o (%=ponkit )": "\181\209m\230\156{\1887[\169\172bJ\196'\158"
+"Rule: ocaml: ml -> cmo & cmi (%=ponkit )": "\244\185\019\004E\223w\225*\000\024\213\012M@\233"
