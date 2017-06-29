@@ -2,6 +2,7 @@ open Unix
    
 let show = ref false
 let quiet = ref false
+let add = ref false
 let command = ref [] 
             
 let set_command c = command := List.append !command [c]
@@ -12,7 +13,7 @@ let read_line file =
   with End_of_file ->
     None
        
-let command_file = (getenv "HOME" ^ "/.ponkit") 
+let command_file = (getenv "HOME" ^ "/.ook") 
                  
 let with_command_file fn =
   let f = open_in command_file in
@@ -55,10 +56,21 @@ let substitute command subs =
       command'
   in
   subst_idx command 0
+  
+let add_command () =
+  let f = open_out_gen [Open_creat; Open_text; Open_append] 0o600 command_file in
+  try
+    output_string f ((List.hd !command) ^ "=" ^ (String.concat " " (List.tl !command)));
+    flush f;
+    close_out f;
+  with e ->
+        close_out_noerr f;
+        raise e
          
 let main = 
   begin
     let speclist = [ ("-s", Arg.Set (show), "Show the available commands")
+                   ; ("-a", Arg.Set (add), "Add a new command")
                    ; ("-q", Arg.Set (quiet), "Show the command that would run, but don't actually run it")] in
     let usage = "Runs command line snippets" in
     
@@ -66,6 +78,8 @@ let main =
     
     if !show then
       print_commands ()
+    else if !add then
+      add_command ()
     else if !quiet then
         match get_command (List.hd !command) with
         | Some(c) -> let to_run = substitute c (List.tl !command) in
