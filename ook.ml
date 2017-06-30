@@ -49,7 +49,7 @@ let get_command command =
 let substitute command subs = 
   let rec subst_idx command' idx =
     if (List.length subs > idx) then
-      let regexp = Str.regexp ("\\$PONK" ^ (string_of_int idx)) in
+      let regexp = Str.regexp ("\\$OOK" ^ (string_of_int idx)) in
       let command'' = Str.global_replace regexp (List.nth subs idx) command' in
       subst_idx command'' (idx + 1)
     else
