@@ -1,0 +1,4 @@
+#compdef ook
+
+_alternative "commands:Commands:($(ook -s))"
+

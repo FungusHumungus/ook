@@ -22,11 +22,18 @@ let with_command_file fn =
   with e ->
         close_in_noerr f;
         raise e
-               
+        
+(* Take the line in the command file (blah=do stuff) 
+returns a tuple of the command name (blah) and the command *)
+let extract_command line = 
+  let split = String.split_on_char '=' line in
+  (List.hd split, String.concat "=" (List.tl split))
+                       
 let print_commands () =
   let rec print_lines f =
     match read_line f with
-    | Some (line) -> print_endline line;
+    | Some (line) -> let (name, command) = extract_command line in
+                     print_endline name;
                      ignore (print_lines f);
     | None -> () 
   in
@@ -35,10 +42,9 @@ let print_commands () =
 let get_command command = 
     let rec match_line f =
       match read_line f with
-      | Some (line) -> let split = String.split_on_char '=' line in
-                       let c = List.hd split in
-                       if c = command then
-                         Some(String.concat "=" (List.tl split))
+      | Some (line) -> let (name, command') = extract_command line in
+                       if name = command then
+                         Some(command')
                        else
                          match_line f
       | None -> None
@@ -60,6 +66,7 @@ let substitute command subs =
 let add_command () =
   let f = open_out_gen [Open_creat; Open_text; Open_append] 0o600 command_file in
   try
+    output_string f "\n";
     output_string f ((List.hd !command) ^ "=" ^ (String.concat " " (List.tl !command)));
     flush f;
     close_out f;
