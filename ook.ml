@@ -97,7 +97,7 @@ let main =
         match get_command (List.hd !command) with
         | Some(c) -> let to_run = substitute c (List.tl !command) in
                      print_endline (ANSITerminal.sprintf [ANSITerminal.green] "%s" to_run);
-                     system c
+                     system to_run
                      |> ignore
         | None -> print_endline (ANSITerminal.sprintf [ANSITerminal.red] "%s" "Duff command");
       end
