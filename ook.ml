@@ -79,7 +79,7 @@ let main =
     let speclist = [ ("-s", Arg.Set (show), "Show the available commands")
                    ; ("-a", Arg.Set (add), "Add a new command")
                    ; ("-q", Arg.Set (quiet), "Show the command that would run, but don't actually run it")] in
-    let usage = "Runs command line snippets" in
+    let usage = "usage: ook [option] command" in
     
     Arg.parse speclist set_command usage;
     
@@ -92,14 +92,14 @@ let main =
         | Some(c) -> let to_run = substitute c (List.tl !command) in
                      print_endline (ANSITerminal.sprintf [ANSITerminal.green] "%s" to_run);
         | None -> print_endline (ANSITerminal.sprintf [ANSITerminal.red] "%s" "Duff command");
-    else
-      begin
+    else if !command != [] then
         match get_command (List.hd !command) with
         | Some(c) -> let to_run = substitute c (List.tl !command) in
                      print_endline (ANSITerminal.sprintf [ANSITerminal.green] "%s" to_run);
                      system to_run
                      |> ignore
         | None -> print_endline (ANSITerminal.sprintf [ANSITerminal.red] "%s" "Duff command");
-      end
+    else 
+        Arg.usage speclist usage |> ignore
     
   end
