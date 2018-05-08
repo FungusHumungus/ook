@@ -1,1 +1,1 @@
-ocamlbuild -use-ocamlfind -pkgs str,ANSITerminal  ook.native
+ocamlbuild -cflag -annot -use-ocamlfind -pkgs str,ANSITerminal  ook.native
